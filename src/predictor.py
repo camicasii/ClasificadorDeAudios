@@ -1,6 +1,6 @@
 import numpy as np
 import sounddevice as sd
-from extractor import Extractor
+from .extractor import Extractor
 import json
 from types import SimpleNamespace
 

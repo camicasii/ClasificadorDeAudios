@@ -9,7 +9,7 @@ class Analizador:
     @classmethod
     def analizaCarpeta(cls, carpeta, extractor):
         import os
-        from lector import Lector
+        from .lector import Lector
         archivos = [f for f in os.listdir(carpeta) if f.endswith('.wav')]
         freqAutoC = np.zeros(len(archivos))
         freqPCol = np.zeros(len(archivos))
