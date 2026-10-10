@@ -40,6 +40,7 @@ class predictor:
         grabacion = sd.rec(int(duracion * fs), samplerate=fs, channels=canales)
         sd.wait()
         print("Listo")
+        grabacion = grabacion.ravel()  # Evita pasar a filtfilt un arreglo con shape (n, 1).
         freqAC, freqPC = self.extractor.extrae(grabacion, fs)
         self._ultimaFreqAC = freqAC
         self._ultimaFreqPC = freqPC
