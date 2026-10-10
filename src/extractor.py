@@ -103,6 +103,6 @@ class Extractor:
 
     def extrae(self,sennal, fs):
         sennal = self.pasabanda(sennal,self.fmin,self.fmax,fs,orden =4)
-        freqAutoC = self.autocorrelacion_pitch(sennal,fs,self.fmin,self.fmax,False)[1]
+        freqAutoC = self.autocorrelacion_pitch(sennal,fs,self.fmin,self.fmax,False)
         freqPCol = self.frecuencia_media_primera_colina(sennal, fs, ancho_hz=70, concentracion=3, umbral=0.4)
         return freqAutoC, freqPCol

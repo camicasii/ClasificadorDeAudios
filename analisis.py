@@ -6,8 +6,8 @@ from src import Analizador, Extractor
 
 def main():
     raiz_proyecto = Path(__file__).resolve().parent
-    carpeta_femenina = raiz_proyecto / "data" / "feminine"
-    carpeta_masculina = raiz_proyecto / "data" / "masculine"
+    carpeta_femenina = raiz_proyecto / "data" / "feme"
+    carpeta_masculina = raiz_proyecto / "data" / "masc"
 
     for carpeta in (carpeta_femenina, carpeta_masculina):
         if not carpeta.is_dir():
