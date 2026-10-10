@@ -32,11 +32,13 @@ class Extractor:
         devolver_vectores: si es True, también devuelve los arrays de lags
                             y correlación (útil para graficar)
         
-        Devuelve siempre:
+        Devuelve la frecuencia estimada (Hz), o None si la señal no tiene
+        energía o no hay un pico positivo en el rango.
+        Si devolver_vectores=True devuelve en cambio:
             lag_pico, frecuencia_estimada
-        Si devolver_vectores=True, además devuelve:
             lags (array de lags evaluados, en muestras)
             segmento (valores de correlación para cada lag)
+        (o cuatro None cuando no hay estimación)
         """
         lag_min = int(fs / frec_max)
         lag_max = int(fs / frec_min)
@@ -48,10 +50,12 @@ class Extractor:
 
         segmento = corr[lag_min:lag_max]
 
-        if len(segmento) == 0:
+        # Sin segmento que evaluar, sin energía o sin pico positivo no hay
+        # frecuencia que estimar (argmax de ceros daría un falso lag 0).
+        if len(segmento) == 0 or corr[0] <= 0 or np.max(segmento) <= 0:
             if devolver_vectores:
                 return None, None, None, None
-            return None, None
+            return None
 
         lag_pico = np.argmax(segmento) + lag_min
         frecuencia_estimada = fs / lag_pico
