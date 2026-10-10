@@ -40,6 +40,9 @@ La estructura inicial del proyecto es:
 │   ├── ...
 │   └── ...
 │
+├── analisis.py
+├── compara.py
+├── grafica_modelo.py
 ├── main.py
 └── README.md
 ```
@@ -54,14 +57,12 @@ A medida que el proyecto avance, esta carpeta contendrá las diferentes clases n
 
 ### `data/`
 
-Esta carpeta está destinada a almacenar los datos utilizados por el proyecto.
-
-Actualmente se encuentra vacía. En etapas posteriores se incorporarán, como mínimo, conjuntos de audios correspondientes a las categorías utilizadas para estudiar y desarrollar el sistema:
+Esta carpeta almacena los audios de referencia. Para ejecutar `analisis.py`, organiza los archivos WAV en estas subcarpetas:
 
 ```text
 data/
-├── masculine/
-└── feminine/
+├── feme/
+└── masc/
 ```
 
 La estructura definitiva de los datos podrá modificarse a medida que se definan las necesidades del proyecto.
@@ -118,21 +119,38 @@ Clasificación
      └── Indistinguible / baja confianza
 ```
 
-El contenido exacto de `modelo/` dependerá del método de clasificación que finalmente se implemente. Por lo tanto, no se establece todavía un formato concreto para sus archivos.
+El archivo `modelo/modelo.json` almacena las medias, desviaciones estándar y cantidades de muestras utilizadas para clasificar y graficar las frecuencias.
 
 ### `main.py`
 
-Será el punto de entrada de la aplicación.
-
-Las clases definidas en `src/` serán utilizadas desde este archivo para ejecutar el flujo general del programa.
-
-El archivo todavía no ha sido implementado.
+Es el punto de entrada de la aplicación y presenta un menú para elegir qué proceso ejecutar.
 
 El programa deberá ejecutarse desde la **carpeta raíz del proyecto**:
 
 ```bash
 python main.py
 ```
+
+## Scripts disponibles
+
+### `analisis.py`
+
+Analiza los archivos WAV de las carpetas `data/feme/` y `data/masc/`, y guarda los resultados en `modelo/modelo.json`.
+
+> **Advertencia:** este proceso sobrescribe `modelo/modelo.json`. La información incorporada al modelo durante las comparaciones, que no esté representada por los audios de `data/`, puede perderse al volver a generar el análisis. El menú de `main.py` solicita dos confirmaciones antes de ejecutarlo.
+
+### `compara.py`
+
+Usa el micrófono para capturar y clasificar una voz en memoria, sin guardar la grabación como archivo de audio. Si el resultado es masculino o femenino, pregunta si se desea agregar esa muestra a los datos del modelo JSON.
+
+### `grafica_modelo.py`
+
+Lee `modelo/modelo.json` y muestra en una misma figura dos gráficas: las distribuciones gaussianas de las frecuencias obtenidas por autocorrelación y por primera colina. Cada gráfica compara las curvas masculina y femenina.
+
+### `main.py`
+
+Ofrece un menú para ejecutar `analisis.py`, `compara.py` o `grafica_modelo.py`. Antes de iniciar el análisis exige dos confirmaciones porque este sobrescribe el JSON del modelo.
+
 
 ## Funcionamiento previsto
 
@@ -206,8 +224,8 @@ Actualmente:
 * La carpeta `src/` está destinada a las clases del sistema.
 * La carpeta `data/` está preparada para incorporar posteriormente los conjuntos de datos.
 * La carpeta `modelo/` está destinada a almacenar la información derivada del estudio de los datos.
-* `main.py` todavía no ha sido definido.
-* La primera versión funcional del identificador todavía no está terminada.
+* `main.py` permite elegir entre analizar los audios de referencia, comparar una voz desde el micrófono o visualizar las distribuciones del modelo.
+* El proceso de análisis vuelve a generar el archivo JSON del modelo a partir de los audios WAV disponibles.
 
 La arquitectura y las responsabilidades de las clases se irán definiendo progresivamente durante el desarrollo.
 
