@@ -1,4 +1,3 @@
-import sounddevice as sd
 import soundfile as sf
 
 class grabador:
@@ -6,7 +5,8 @@ class grabador:
         self.sr = sr
         self.canales = canales
 
-    def grabar(self,duracion):        
+    def grabar(self,duracion):
+        import sounddevice as sd  # se importa aquí para que el paquete funcione sin PortAudio
         print("Grabando...")
         grabacion = sd.rec(int(duracion * self.sr), samplerate=self.sr, channels=self.canales)
         sd.wait()
